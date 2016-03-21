@@ -1,5 +1,8 @@
 package com.silentspider.silentspideros;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +36,68 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+
+        loadApps();
+        loadListView();
+        addClickListener();
+    }
+
+    public class AppDetail {
+        CharSequence label;
+        CharSequence name;
+    }
+
+    private PackageManager manager;
+    private List<AppDetail> apps;
+    private void loadApps(){
+        manager = getPackageManager();
+        apps = new ArrayList<AppDetail>();
+
+        Intent i = new Intent(Intent.ACTION_MAIN, null);
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
+        for(ResolveInfo ri:availableActivities){
+            AppDetail app = new AppDetail();
+            app.label = ri.loadLabel(manager);
+            app.name = ri.activityInfo.packageName;
+            apps.add(app);
+        }
+    }
+
+    private ListView list;
+    private void loadListView(){
+        list = (ListView)findViewById(R.id.listView);
+
+        ArrayAdapter<AppDetail> adapter = new ArrayAdapter<AppDetail>(this,
+                R.layout.app_item,
+                apps) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if(convertView == null){
+                    convertView = getLayoutInflater().inflate(R.layout.app_item, null);
+                }
+                TextView appLabel = (TextView)convertView.findViewById(R.id.app_label);
+                appLabel.setText(apps.get(position).label);
+                TextView appName = (TextView)convertView.findViewById(R.id.app_name);
+                appName.setText(apps.get(position).name);
+                return convertView;
+            }
+        };
+
+        list.setAdapter(adapter);
+    }
+
+    private void addClickListener(){
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,
+                                    long id) {
+                Intent i = manager.getLaunchIntentForPackage(apps.get(pos).name.toString());
+                MainActivity.this.startActivity(i);
             }
         });
     }
