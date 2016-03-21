@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         loadApps();
@@ -113,5 +112,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFullScreen(true);
+    }
+
+    private void setFullScreen(final boolean fullscreen) {
+        // Hide/show the system bar
+        Window window = getWindow();
+        window.setFlags(fullscreen ?
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN : 0,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (fullscreen) {
+            // Keep the system bar hidden in full screen mode
+            window.getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int visibility) {
+                    if ((visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) != 0) {
+                        getWindow().setFlags(
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    }
+                    else {
+                        getWindow().getDecorView().setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | 0x4);
+                    }
+                }
+            });
+        }
+        else {
+            window.getDecorView().setOnSystemUiVisibilityChangeListener(null);
+        }
+        window.getDecorView().setSystemUiVisibility(
+                fullscreen ? (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | 0x4) : 0);
     }
 }
