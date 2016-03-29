@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:text="Tabview 1"
+        android:text="TabTitle"
         android:id="@+id/tabTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

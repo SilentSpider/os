@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/RelativeLayout1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
+        android:id="@+id/item_app_name"
+        android:layout_width="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="SILENT SPIDER"
+        android:textColor="#44444a"
+        android:textSize="20dp"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+<!--
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:layout_alignWithParentIfMissing="true"
+        android:src="@drawable/qrcode"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="400dp"
+        android:background="#ffffff" />
+-->
+    <ListView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/wifiList"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="20dp"
+        android:background="#ffffff"
+        android:layout_alignTop="@+id/item_app_name"
+        android:layout_alignStart="@+id/item_app_name"
+        android:layout_marginStart="40dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/addButton"
+        android:layout_above="@+id/wifiList"
+        android:layout_alignLeft="@+id/wifiList"
+        android:layout_alignStart="@+id/wifiList"
+        android:layout_marginLeft="161dp"
+        android:layout_marginStart="161dp" />
+
+</RelativeLayout>

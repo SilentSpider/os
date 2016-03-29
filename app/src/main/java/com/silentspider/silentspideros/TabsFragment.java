@@ -18,10 +18,12 @@ public class TabsFragment extends Fragment implements OnTabChangeListener {
     // Constants
     //
     private final TabDefinition[] TAB_DEFINITIONS = new TabDefinition[] {
+            new SimpleTabDefinition(R.id.tab0, R.layout.tab_view,
+                    R.string.wifi_tab_title, R.id.tabTitle, new Fragment()),
             new SimpleTabDefinition(R.id.tab1, R.layout.tab_view,
-                    R.string.action_settings, R.id.tabTitle, new Fragment()),
-            new SimpleTabDefinition(R.id.tab2, R.layout.tab_view2,
-                    R.string.app_name, R.id.tabTitle, new Fragment()),
+                    R.string.chat_tab_title, R.id.tabTitle, new Fragment()),
+            new SimpleTabDefinition(R.id.tab2, R.layout.tab_view,
+                    R.string.version_tab_title, R.id.tabTitle, new Fragment()),
     };
 
     //
