@@ -68,7 +68,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         mainWifi.startScan();
         addItem("Starting scan");
 
-        Button b = (Button) view.findViewById(R.id.addButton);
+        Button b = (Button) view.findViewById(R.id.connectButton);
         b.setOnClickListener(this);
 
 
