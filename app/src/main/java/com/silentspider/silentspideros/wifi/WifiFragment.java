@@ -8,11 +8,14 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.net.wifi.*;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,10 +74,14 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         Button b = (Button) view.findViewById(R.id.connectButton);
         b.setOnClickListener(this);
 
+        CheckBox showPasswordBox = (CheckBox) view.findViewById(R.id.showPasswordCheckBox);
+        EditText passwordEditBox = (EditText) view.findViewById(R.id.passwordTextEdit);
+                showPasswordBox.setOnClickListener(new ShowPasswordBoxListener(passwordEditBox));
 
         // Inflate the layout for this fragment
         return view;
     }
+
 
     List liste = new ArrayList<String>();
     ArrayAdapter<String> adapter2 = null;
@@ -101,7 +108,26 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
                 addItem((wifiList.get(i)).toString());
             }
         }
-
     }
+
+    class ShowPasswordBoxListener implements View.OnClickListener {
+
+        EditText passwordEditBox;
+
+        public ShowPasswordBoxListener(EditText passwordEditBox) {
+            this.passwordEditBox = passwordEditBox;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(((CheckBox) v).isChecked()) {
+                passwordEditBox.setTransformationMethod(null);
+            }
+            else {
+                passwordEditBox.setTransformationMethod(new PasswordTransformationMethod());
+            }
+        }
+    }
+
 
 }
