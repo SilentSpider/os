@@ -29,6 +29,13 @@ import java.util.List;
  * Created by johan on 29/03/16.
  */
 public class WifiFragment extends Fragment implements View.OnClickListener {
+
+    List networkList = new ArrayList<String>();
+    ArrayAdapter<String> networkListAdapter = null;
+    android.net.wifi.WifiManager mainWifi;
+    WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,13 +48,13 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         header.setTypeface(font);
 
         String[] values = new String[] { "Android" };
-        Collections.addAll(liste, values);
-        adapter2 = new ArrayAdapter<String>(getActivity(),
-                R.layout.wifi_item, liste);
+        Collections.addAll(networkList, values);
+        networkListAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.wifi_item, networkList);
 
 
         ListView listView = (ListView) view.findViewById(R.id.wifiList);
-        listView.setAdapter(adapter2);
+        listView.setAdapter(networkListAdapter);
 
         // Initiate wifi service manager
         mainWifi = (android.net.wifi.WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
@@ -83,19 +90,33 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    List liste = new ArrayList<String>();
-    ArrayAdapter<String> adapter2 = null;
-    android.net.wifi.WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
-
     public void onClick(View view) {
-        addItem("Button");
+
+        String ssid = ((ListView) view.findViewById(R.id.wifiList)).getSelectedItem().toString();
+        String password = ((EditText) view.findViewById(R.id.passwordTextEdit)).getText().toString();
+
+        WifiManager wifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        // setup a wifi configuration
+        WifiConfiguration wc = new WifiConfiguration();
+        wc.SSID = "\"" + ssid +  "\"";
+        wc.preSharedKey = "\"" + password + "\"";
+        wc.status = WifiConfiguration.Status.ENABLED;
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        // connect to and enable the connection
+        int netId = wifiManager.addNetwork(wc);
+        wifiManager.enableNetwork(netId, true);
+        wifiManager.setWifiEnabled(true);
+
     }
 
     private void addItem(String title) {
-        liste.add(title);
-        adapter2.notifyDataSetChanged();
+        networkList.add(title);
+        networkListAdapter.notifyDataSetChanged();
     }
 
     class WifiReceiver extends BroadcastReceiver {
@@ -105,19 +126,16 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
             wifiList = mainWifi.getScanResults();
             addItem("Found: " + wifiList.size() + " nets");
             for(int i = 0; i < wifiList.size(); i++){
-                addItem((wifiList.get(i)).toString());
+                addItem((wifiList.get(i)).SSID);
             }
         }
     }
 
     class ShowPasswordBoxListener implements View.OnClickListener {
-
         EditText passwordEditBox;
-
         public ShowPasswordBoxListener(EditText passwordEditBox) {
             this.passwordEditBox = passwordEditBox;
         }
-
         @Override
         public void onClick(View v) {
             if(((CheckBox) v).isChecked()) {
