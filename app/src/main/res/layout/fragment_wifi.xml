@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|top"
         android:text="Connect"
+        android:textColor="@color/colorAccent"
         android:id="@+id/connectButton" />
     </LinearLayout>
 

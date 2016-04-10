@@ -2,11 +2,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/colorPrimaryDark">
     <fragment
         class="com.silentspider.silentspideros.TabsFragment"
         android:id="@+id/tabs_fragment"
         android:layout_margin="20dp"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"/>
 </LinearLayout>
