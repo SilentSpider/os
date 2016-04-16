@@ -1,5 +1,6 @@
 package com.silentspider.silentspideros;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 /**
  * A {@link Fragment} used to switch between tabs.
@@ -18,12 +20,12 @@ public class TabsFragment extends Fragment implements OnTabChangeListener {
     // Constants
     //
     private final TabDefinition[] TAB_DEFINITIONS = new TabDefinition[] {
-            new SimpleTabDefinition(R.id.tab0, R.layout.tab_view,
-                    R.string.wifi_tab_title, R.id.tabTitle, new Fragment()),
-            new SimpleTabDefinition(R.id.tab1, R.layout.tab_view,
-                    R.string.chat_tab_title, R.id.tabTitle, new Fragment()),
-            new SimpleTabDefinition(R.id.tab2, R.layout.tab_view,
-                    R.string.version_tab_title, R.id.tabTitle, new Fragment()),
+            new SimpleTabDefinition(R.id.tab0, R.layout.wifi_tab,
+                    R.string.wifi_tab_title, R.id.wifiTitle, new Fragment()),
+            new SimpleTabDefinition(R.id.tab1, R.layout.chat_tab,
+                    R.string.chat_tab_title, R.id.chatTitle, new Fragment()),
+            new SimpleTabDefinition(R.id.tab2, R.layout.version_tab,
+                    R.string.version_tab_title, R.id.versionTitle, new Fragment()),
     };
 
     //
@@ -60,6 +62,14 @@ public class TabsFragment extends Fragment implements OnTabChangeListener {
         for (TabDefinition tab : TAB_DEFINITIONS) {
             _tabHost.addTab(createTab(inflater, _tabHost, _viewRoot, tab));
         }
+
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Helvetica-UltraCompressed.otf");
+        TextView title = (TextView) _viewRoot.findViewById(R.id.wifiTitle);
+        title.setTypeface(font);
+        title = (TextView) _viewRoot.findViewById(R.id.chatTitle);
+        title.setTypeface(font);
+        title = (TextView) _viewRoot.findViewById(R.id.versionTitle);
+        title.setTypeface(font);
 
         return _viewRoot;
     }

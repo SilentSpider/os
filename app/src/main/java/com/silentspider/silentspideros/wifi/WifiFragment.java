@@ -43,14 +43,25 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_wifi, container, false);
 
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Helvetica-UltraCompressed.otf");
-        TextView header = (TextView) view.findViewById(R.id.item_app_name);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaCE-CondBold.otf");
+        TextView header = (TextView) view.findViewById(R.id.selectTitle);
         header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.scanStatus);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiPasswordTitle);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.passwordTextEdit);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.showPasswordCheckBox);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.connectButton);
+        header.setTypeface(font);
+
 
         String[] values = new String[] { "Android" };
         Collections.addAll(networkList, values);
-        networkListAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.wifi_item, networkList);
+        networkListAdapter = new WifiArrayAdapter(getActivity(),
+                R.layout.wifi_item, R.id.wifi_net_title, networkList);
 
 
         ListView listView = (ListView) view.findViewById(R.id.wifiList);

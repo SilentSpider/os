@@ -1,77 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <LinearLayout
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
+    android:background="@color/colorPrimaryDark"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-
-
-
     <TextView
-        android:layout_marginLeft="10dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_app_name"
-        android:layout_width="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="1 Select Your Wifi Network"
-        android:textColor="#44444a"
-        android:textSize="20dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-      />
+        android:layout_height="2dp"
+        android:layout_width="76dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="250dp"
+        android:text=""
+        android:foreground="@color/colorAccent"
+        android:id="@+id/wifiIndicatorBar"/>
 
-    <ListView
-        android:layout_rowSpan="4"
-        android:layout_gravity="left|top"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="20dp"
+        android:background="@color/colorPrimary"
+        android:layout_width="fill_parent">
+
+        <TextView
+            android:layout_height="25dp"
+            android:layout_width="160dp"
+            android:layout_marginTop="-7dp"
+            android:text="    SELECT YOUR WIFI NETWORK"
+            android:textSize="9dp"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/selectTitle"/>
+
+        <TextView
+            android:layout_height="35dp"
+            android:layout_width="35dp"
+            android:text=""
+            android:background="@drawable/triangle"
+            android:id="@+id/triangleTransition"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="0dp"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
         android:layout_height="fill_parent"
-        android:layout_margin="10dp"
-        android:id="@+id/wifiList"
-        android:background="#ffffff" />
+        android:layout_width="fill_parent">
+
+        <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/scanStatus"
+                android:layout_width="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Available networks:"
+                android:textColor="@color/colorWhite"
+                android:textSize="10dp"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+              />
+
+            <ListView
+                android:layout_rowSpan="4"
+                android:layout_gravity="left|top"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:id="@+id/wifiList"
+                android:color="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="10dp"
+                android:text="Wifi password:"
+                android:id="@+id/wifiPasswordTitle"
+                android:layout_marginLeft="30dp"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_gravity="left|top"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/passwordTextEdit" />
+
+            <CheckBox
+                android:layout_gravity="left|top"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Show password"
+                android:layout_marginLeft="26dp"
+                android:id="@+id/showPasswordCheckBox" />
+
+            <Button
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:text="Connect"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/connectButton" />
+            </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="30dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Wifi password:"
-        android:id="@+id/textView"
-        android:layout_marginLeft="30dp"/>
-
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_gravity="left|top"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginLeft="30dp"
-        android:id="@+id/passwordTextEdit" />
-
-    <CheckBox
-        android:layout_gravity="left|top"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Show password"
-        android:layout_marginLeft="30dp"
-        android:id="@+id/showPasswordCheckBox" />
-
-    <Button
-        android:layout_marginLeft="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
-        android:text="Connect"
-        android:textColor="@color/colorAccent"
-        android:id="@+id/connectButton" />
-    </LinearLayout>
-
 </LinearLayout>

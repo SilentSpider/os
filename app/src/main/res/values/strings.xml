@@ -1,7 +1,7 @@
 <resources>
-    <string name="wifi_tab_title">Wifi</string>
-    <string name="chat_tab_title">Chat</string>
-    <string name="version_tab_title">Version</string>
+    <string name="wifi_tab_title">WIFI</string>
+    <string name="chat_tab_title">CHAT</string>
+    <string name="version_tab_title">VERSION</string>
     <string name="app_name">SilentSpiderOS</string>
     <string name="action_settings">Settings</string>
 </resources>
