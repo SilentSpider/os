@@ -11,7 +11,7 @@
         android:layout_height="2dp"
         android:layout_width="76dp"
         android:layout_marginTop="0dp"
-        android:layout_marginLeft="560dp"
+        android:layout_marginLeft="663dp"
         android:text=" "
         android:background="@color/colorAccent"
         android:foreground="@color/colorAccent"
@@ -27,7 +27,7 @@
             android:layout_height="25dp"
             android:layout_width="160dp"
             android:layout_marginTop="-7dp"
-            android:text="    SELECT YOUR WIFI NETWORK"
+            android:text="    CONNECT TO CHAT"
             android:textSize="9dp"
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimaryDark"
@@ -55,25 +55,29 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/scanStatus"
+                android:id="@+id/desktopTitle"
                 android:layout_width="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Available networks:"
+                android:text="DESKTOP INSTRUCTIONS:"
                 android:textColor="@color/colorWhite"
                 android:textSize="10dp"
                 xmlns:android="http://schemas.android.com/apk/res/android"
               />
 
-            <ListView
-                android:layout_rowSpan="4"
-                android:layout_gravity="left|top"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+            <TextView
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp"
-                android:id="@+id/wifiList"
-                android:color="@color/colorPrimary" />
+                android:layout_height="wrap_content"
+                android:id="@+id/desktopDetails"
+                android:layout_width="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/lorem"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10dp"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                />
 
         </LinearLayout>
 
@@ -86,38 +90,21 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="10dp"
-                android:text="Wifi password:"
-                android:id="@+id/wifiPasswordTitle"
+                android:text="MOBILE INSTRUCTIONS:"
+                android:id="@+id/mobileTitle"
                 android:layout_marginLeft="30dp"/>
 
-            <EditText
+            <TextView
                 android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
                 android:layout_width="fill_parent"
-                android:layout_gravity="left|top"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="30dp"
-                android:id="@+id/passwordTextEdit" />
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10dp"
+                android:text="@string/lorem"
+                android:id="@+id/mobileDetails"
+                android:layout_marginLeft="30dp"/>
 
-            <CheckBox
-                android:layout_gravity="left|top"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Show password"
-                android:layout_marginLeft="26dp"
-                android:id="@+id/showPasswordCheckBox" />
-
-            <Button
-                android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|top"
-                android:text="Connect"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/connectButton" />
             </LinearLayout>
 
     </LinearLayout>

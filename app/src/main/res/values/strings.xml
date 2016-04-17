@@ -4,4 +4,7 @@
     <string name="version_tab_title">VERSION</string>
     <string name="app_name">SilentSpiderOS</string>
     <string name="action_settings">Settings</string>
+    <string name="lorem">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacinia convallis arcu nec condimentum. Ut condimentum urna in consectetur vestibulum. Duis nec tellus sit amet magna pellentesque dignissim. Nullam malesuada semper lectus, vel consequat erat cursus sit amet. Integer nec mi mi. Sed cursus, mi blandit bibendum placerat, nisi urna sagittis tortor, non sagittis elit orci sit amet ante. Integer eget tincidunt sem, sed dignissim dolor. Curabitur ultricies, enim efficitur faucibus facilisis, ligula orci auctor purus, eu aliquam eros dolor et velit.
+    </string>
 </resources>

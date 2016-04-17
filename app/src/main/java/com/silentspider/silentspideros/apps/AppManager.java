@@ -1,8 +1,10 @@
 package com.silentspider.silentspideros.apps;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,10 +25,12 @@ public class AppManager {
 
     private PackageManager manager;
     private List<AppManager.AppDetail> apps;
-    private MainActivity mainActivity;
+    private Activity mainActivity;
+    private View view;
 
-    public AppManager(MainActivity mainActivity) {
+    public AppManager(Activity mainActivity, View view) {
         this.mainActivity = mainActivity;
+        this.view = view;
         loadApps();
         loadListView();
         addClickListener();
@@ -55,7 +59,7 @@ public class AppManager {
 
     private ListView list;
     private void loadListView(){
-        list = (ListView)mainActivity.findViewById(R.id.listView);
+        list = (ListView) view.findViewById(R.id.appList);
 
         ArrayAdapter<AppManager.AppDetail> adapter = new ArrayAdapter<AppManager.AppDetail>(mainActivity,
                 R.layout.app_item,

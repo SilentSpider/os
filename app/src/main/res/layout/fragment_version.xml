@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:background="@color/colorPrimaryDark"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_height="2dp"
+        android:layout_width="76dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="776dp"
+        android:text=" "
+        android:background="@color/colorAccent"
+        android:foreground="@color/colorAccent"
+        android:id="@+id/wifiIndicatorBar"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="20dp"
+        android:background="@color/colorPrimary"
+        android:layout_width="fill_parent">
+
+        <TextView
+            android:layout_height="25dp"
+            android:layout_width="160dp"
+            android:layout_marginTop="-7dp"
+            android:text="    VERSION AND MORE"
+            android:textSize="9dp"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/selectTitle"/>
+
+        <TextView
+            android:layout_height="35dp"
+            android:layout_width="35dp"
+            android:text=""
+            android:background="@drawable/triangle"
+            android:id="@+id/triangleTransition"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="0dp"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/appList"
+                android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+</LinearLayout>

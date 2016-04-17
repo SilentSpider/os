@@ -24,12 +24,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppManager appManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        appManager = new AppManager(this);
     }
 
 
