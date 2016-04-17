@@ -125,8 +125,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
 
     public void stopBlinkAnimation() {
         animationTimer.cancel();
-        TransitionDrawable transition = (TransitionDrawable) animationView.getBackground();
-        transition.reverseTransition(500);
+        animationView.setBackgroundResource(R.drawable.standard);
     }
 
     public class MyTimerTask extends TimerTask {
