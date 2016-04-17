@@ -1,21 +1,29 @@
 package com.silentspider.silentspideros.wifi;
 
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.wifi.*;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +32,8 @@ import com.silentspider.silentspideros.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by johan on 29/03/16.
@@ -61,10 +71,14 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         String[] values = new String[] { "Android" };
         Collections.addAll(networkList, values);
         networkListAdapter = new WifiArrayAdapter(getActivity(),
-                R.layout.wifi_item, R.id.wifi_net_title, networkList);
+                R.layout.wifi_item, R.id.wifi_net_title, networkList, this);
 
+
+        LinearLayout selectNetwork = (LinearLayout) view.findViewById(R.id.selectNetwork);
+        startBlinkAnimation(selectNetwork);
 
         ListView listView = (ListView) view.findViewById(R.id.wifiList);
+
         listView.setAdapter(networkListAdapter);
 
         // Initiate wifi service manager
@@ -101,6 +115,49 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    private Timer animationTimer;
+    private View animationView;
+
+    public void startBlinkAnimation(View view) {
+        animationView = view;
+        animationTimer = new Timer();
+        animationTimer.schedule(new MyTimerTask(view), 0, 1500);
+    }
+
+    public void stopBlinkAnimation() {
+        animationTimer.cancel();
+        TransitionDrawable transition = (TransitionDrawable) animationView.getBackground();
+        transition.reverseTransition(500);
+    }
+
+    public class MyTimerTask extends TimerTask {
+
+        private View view;
+        public MyTimerTask(View view) {
+            this.view = view;
+        }
+
+        int i = 0;
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                TransitionDrawable transition = (TransitionDrawable) view.getBackground();
+
+                @Override
+                public void run() {
+                    i++;
+                    if (i % 2 == 0) { //
+                        transition.startTransition(500);
+                    } else {
+                        transition.reverseTransition(500);
+                    }
+
+                }
+            });
+        }
+
+    }
+
     public void onClick(View view) {
 
         String ssid = ((ListView) view.findViewById(R.id.wifiList)).getSelectedItem().toString();
@@ -130,12 +187,28 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         networkListAdapter.notifyDataSetChanged();
     }
 
+    public void networkSelected(int index) {
+        // view is the row view returned by getView
+        // The position is stored as tag, so it can be retrieved using getTag ()
+
+        CharSequence text = "Selected network " + networkList.get(index) ;
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getActivity(), text, duration);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
+                duration, duration);
+        toast.show();
+
+        stopBlinkAnimation();
+        LinearLayout selectNetwork = (LinearLayout) getActivity().findViewById(R.id.connectNetwork);
+        startBlinkAnimation(selectNetwork);
+    }
+
     class WifiReceiver extends BroadcastReceiver {
 
         // This method call when number of wifi connections changed
         public void onReceive(Context c, Intent intent) {
             wifiList = mainWifi.getScanResults();
-            addItem("Found: " + wifiList.size() + " nets");
+            networkList.clear();
             for(int i = 0; i < wifiList.size(); i++){
                 addItem((wifiList.get(i)).SSID);
             }
