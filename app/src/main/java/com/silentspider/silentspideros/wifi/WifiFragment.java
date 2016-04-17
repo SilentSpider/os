@@ -68,7 +68,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         header.setTypeface(font);
 
 
-        String[] values = new String[] { "Android" };
+        String[] values = new String[] { "Scan initiated..." };
         Collections.addAll(networkList, values);
         networkListAdapter = new WifiArrayAdapter(getActivity(),
                 R.layout.wifi_item, R.id.wifi_net_title, networkList, this);
@@ -101,7 +101,6 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         // Broacast receiver will automatically call when number of wifi connections changed
         getActivity().registerReceiver(receiverWifi, new IntentFilter(android.net.wifi.WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         mainWifi.startScan();
-        addItem("Starting scan");
 
         Button b = (Button) view.findViewById(R.id.connectButton);
         b.setOnClickListener(this);

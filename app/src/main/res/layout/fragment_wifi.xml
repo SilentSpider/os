@@ -109,7 +109,6 @@
                 android:textSize="10dp"
                 android:text="Wifi password:"
                 android:id="@+id/wifiPasswordTitle"
-                android:layout_marginRight="100dp"
                 android:layout_marginLeft="10dp"/>
 
             <EditText
@@ -121,6 +120,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/passwordTextEdit" />
 
             <CheckBox
