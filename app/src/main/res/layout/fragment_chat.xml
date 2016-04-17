@@ -11,7 +11,7 @@
         android:layout_height="2dp"
         android:layout_width="76dp"
         android:layout_marginTop="0dp"
-        android:layout_marginLeft="663dp"
+        android:layout_marginLeft="563dp"
         android:text=" "
         android:background="@color/colorAccent"
         android:foreground="@color/colorAccent"

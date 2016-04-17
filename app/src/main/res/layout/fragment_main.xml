@@ -26,8 +26,8 @@
                 android:src="@drawable/logotype" />
 
             <TabWidget
-                android:layout_marginLeft="432dp"
-                android:layout_marginRight="550dp"
+                android:layout_marginLeft="332dp"
+                android:layout_marginRight="450dp"
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
