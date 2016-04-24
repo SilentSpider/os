@@ -34,25 +34,27 @@ import java.util.List;
 /**
  * Created by johan on 29/03/16.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements RestCallback {
 
-    List networkList = new ArrayList<String>();
-    ArrayAdapter<String> networkListAdapter = null;
-    List<ScanResult> wifiList;
+    private List networkList = new ArrayList<String>();
+    private ArrayAdapter<String> networkListAdapter = null;
+    private List<ScanResult> wifiList;
+    private String onionUri = "";
+    private static String BASE_URI = "http://127.0.0.1:3000/";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-
-
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaCE-CondBold.otf");
         TextView header = (TextView) view.findViewById(R.id.selectTitle);
         header.setTypeface(font);
         header = (TextView) view.findViewById(R.id.mobileTitle);
         header.setTypeface(font);
         header = (TextView) view.findViewById(R.id.desktopTitle);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.onionUri);
         header.setTypeface(font);
 
         WebView browser = (WebView) view.findViewById(R.id.webView);
@@ -61,16 +63,28 @@ public class ChatFragment extends Fragment {
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         browser.setWebViewClient(new LocalWebViewClient());
-        browser.loadUrl("http://127.0.0.1:3000/");
+        browser.loadUrl(BASE_URI);
+
+        // Get the onion hostname by making a rest call to the node server
+        new RestClient(this).execute(BASE_URI + "hostname");
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void result(String response) {
+        TextView onionTitle = (TextView) getActivity().findViewById(R.id.onionUri);
+        onionTitle.setText("http://" + response);
+        onionUri = response;
     }
 
     private class LocalWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
+            TextView onionTitle = (TextView) getActivity().findViewById(R.id.onionUri);
+            onionTitle.setText("http://" + onionUri + url.substring(BASE_URI.length() - 1));
             return true;
         }
     }

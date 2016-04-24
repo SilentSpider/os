@@ -45,7 +45,7 @@
         android:layout_margin="0dp"
         android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:layout_width="fill_parent">
 
         <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
@@ -104,6 +104,17 @@
             </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="3dp"
+        android:layout_height="30dp"
+        android:layout_gravity="left|top"
+        android:layout_width="fill_parent"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        android:text="LOADING..."
+        android:id="@+id/onionUri"
+        android:layout_marginLeft="30dp"/>
 
     <WebView
         android:id="@+id/webView"
