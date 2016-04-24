@@ -41,12 +41,11 @@
             android:id="@+id/triangleTransition"/>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_margin="0dp"
         android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:layout_height="fill_parent"
+        android:layout_height="150dp"
         android:layout_width="fill_parent">
 
         <LinearLayout android:orientation="vertical" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
@@ -105,4 +104,10 @@
             </LinearLayout>
 
     </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
 </LinearLayout>

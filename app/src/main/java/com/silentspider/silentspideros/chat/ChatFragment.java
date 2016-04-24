@@ -14,6 +14,8 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,7 +55,23 @@ public class ChatFragment extends Fragment {
         header = (TextView) view.findViewById(R.id.desktopTitle);
         header.setTypeface(font);
 
+        WebView browser = (WebView) view.findViewById(R.id.webView);
+        browser.clearCache(true);
+        browser.clearHistory();
+        browser.getSettings().setJavaScriptEnabled(true);
+        browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        browser.setWebViewClient(new LocalWebViewClient());
+        browser.loadUrl("http://127.0.0.1:3000/");
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private class LocalWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }
