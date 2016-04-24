@@ -45,6 +45,10 @@ public class WifiArrayAdapter extends ArrayAdapter<String> implements View.OnCli
         return view;
     }
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
     @Override
     public void onClick ( View view ) {
         selectedIndex = Integer.parseInt(view.getTag().toString());

@@ -1,34 +1,39 @@
 package com.silentspider.silentspideros.wifi;
 
-import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.wifi.*;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.silentspider.silentspideros.R;
+import com.silentspider.silentspideros.TabsFragment;
 
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +50,15 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
     android.net.wifi.WifiManager mainWifi;
     WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
+    WifiManager wifiManager;
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiverWifi);
+        networkStatusTimer.cancel();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +81,20 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         header = (TextView) view.findViewById(R.id.connectButton);
         header.setTypeface(font);
 
+        header = (TextView) view.findViewById(R.id.wifiStatusTitle);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiStatus);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiNetwork);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiSignalStrength);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiLinkSpeed);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.wifiIpAddress);
+        header.setTypeface(font);
+        header = (TextView) view.findViewById(R.id.nextButton);
+        header.setTypeface(font);
 
         String[] values = new String[] { "Scan initiated..." };
         Collections.addAll(networkList, values);
@@ -83,6 +111,8 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
 
         // Initiate wifi service manager
         mainWifi = (android.net.wifi.WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+
 
         // Check for wifi is disabled
         if (mainWifi.isWifiEnabled() == false)
@@ -104,10 +134,18 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
 
         Button b = (Button) view.findViewById(R.id.connectButton);
         b.setOnClickListener(this);
+        b = (Button) view.findViewById(R.id.nextButton);
+        b.setOnClickListener(this);
 
         CheckBox showPasswordBox = (CheckBox) view.findViewById(R.id.showPasswordCheckBox);
         EditText passwordEditBox = (EditText) view.findViewById(R.id.passwordTextEdit);
                 showPasswordBox.setOnClickListener(new ShowPasswordBoxListener(passwordEditBox));
+
+        if(networkStatusTimer != null) {
+            networkStatusTimer.cancel();
+        }
+        networkStatusTimer = new Timer();
+        networkStatusTimer.schedule(new NetworkStatusTask(wifiManager), 0, 500);
 
         // Inflate the layout for this fragment
         return view;
@@ -120,7 +158,7 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
     public void startBlinkAnimation(View view) {
         animationView = view;
         animationTimer = new Timer();
-        animationTimer.schedule(new MyTimerTask(view), 0, 1500);
+        animationTimer.schedule(new GlowingOutlineTask(view), 0, 1500);
     }
 
     public void stopBlinkAnimation() {
@@ -128,10 +166,10 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         animationView.setBackgroundResource(R.drawable.standard);
     }
 
-    public class MyTimerTask extends TimerTask {
+    public class GlowingOutlineTask extends TimerTask {
 
         private View view;
-        public MyTimerTask(View view) {
+        public GlowingOutlineTask(View view) {
             this.view = view;
         }
 
@@ -153,15 +191,26 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
                 }
             });
         }
-
     }
+
+    private Timer networkStatusTimer;
 
     public void onClick(View view) {
 
-        String ssid = ((ListView) view.findViewById(R.id.wifiList)).getSelectedItem().toString();
-        String password = ((EditText) view.findViewById(R.id.passwordTextEdit)).getText().toString();
+        // Handle simple next button
+        if(view.getId() == R.id.nextButton) {
+            TabHost host = (TabHost) getActivity().findViewById(R.id.tabs_fragment);
+            host.setCurrentTab(1);
+            return;
+        }
 
-        WifiManager wifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        ListView listView = ((ListView) getActivity().findViewById(R.id.wifiList));
+
+        int idx = ((WifiArrayAdapter) listView.getAdapter()).getSelectedIndex();
+        String ssid = listView.getAdapter().getItem(idx).toString();
+
+        String password = ((EditText) getActivity().findViewById(R.id.passwordTextEdit)).getText().toString();
+
         // setup a wifi configuration
         WifiConfiguration wc = new WifiConfiguration();
         wc.SSID = "\"" + ssid +  "\"";
@@ -174,10 +223,74 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
         wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
         // connect to and enable the connection
+
+        wifiManager.disconnect();
         int netId = wifiManager.addNetwork(wc);
         wifiManager.enableNetwork(netId, true);
         wifiManager.setWifiEnabled(true);
+        wifiManager.reconnect();
 
+        stopBlinkAnimation();
+        LinearLayout statusNetwork = (LinearLayout) getActivity().findViewById(R.id.statusNetwork);
+        startBlinkAnimation(statusNetwork);
+    }
+
+    public class NetworkStatusTask extends TimerTask {
+
+        private WifiManager wifiManager;
+        public NetworkStatusTask(WifiManager wifiManager) {
+            this.wifiManager = wifiManager;
+        }
+
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    WifiInfo info = wifiManager.getConnectionInfo();
+                    if(info != null) {
+                        int i = info.getIpAddress();
+                        String ipAddress = "N/A";
+                        Activity activity = getActivity();
+
+                        if(i != 0) {
+                            ipAddress = getIpAddressFromInt(info.getIpAddress());
+                            activity.findViewById(R.id.nextButton).setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            activity.findViewById(R.id.nextButton).setVisibility(View.INVISIBLE);
+                        }
+
+                        ((TextView)activity.findViewById(R.id.wifiStatus)).setText("STATUS: " + info.getSupplicantState());
+                        ((TextView)activity.findViewById(R.id.wifiNetwork)).setText("NETWORK: " + info.getSSID().substring(1, info.getSSID().length() - 1));
+                        ((TextView)activity.findViewById(R.id.wifiSignalStrength)).setText("STRENGTH: " + (100 + info.getRssi()) + "%");
+                        ((TextView)activity.findViewById(R.id.wifiLinkSpeed)).setText("SPEED: " + info.getLinkSpeed() + "Mbit");
+                        ((TextView)activity.findViewById(R.id.wifiIpAddress)).setText("IP: " + ipAddress);
+                    }
+                }
+            });
+        }
+    }
+
+
+    private String getIpAddressFromInt(int ipAddress) {
+
+        // Convert little-endian to big-endianif needed
+        if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
+            ipAddress = Integer.reverseBytes(ipAddress);
+        }
+
+        byte[] ipByteArray = BigInteger.valueOf(ipAddress).toByteArray();
+
+        String ipAddressString;
+        try {
+            ipAddressString = InetAddress.getByAddress(ipByteArray).getHostAddress();
+        } catch (UnknownHostException ex) {
+            Log.e("WIFIIP", "Unable to get host address.");
+            ipAddressString = null;
+        }
+
+        return ipAddressString;
     }
 
     private void addItem(String title) {
@@ -199,12 +312,17 @@ public class WifiFragment extends Fragment implements View.OnClickListener {
         stopBlinkAnimation();
         LinearLayout selectNetwork = (LinearLayout) getActivity().findViewById(R.id.connectNetwork);
         startBlinkAnimation(selectNetwork);
+        getActivity().findViewById(R.id.passwordTextEdit).requestFocus();
     }
 
     class WifiReceiver extends BroadcastReceiver {
 
         // This method call when number of wifi connections changed
         public void onReceive(Context c, Intent intent) {
+
+            final String action = intent.getAction();
+            Log.d("WifiReceiver", "WifiReceiver got action " + action);
+
             wifiList = mainWifi.getScanResults();
             networkList.clear();
             for(int i = 0; i < wifiList.size(); i++){

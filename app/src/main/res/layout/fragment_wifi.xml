@@ -96,7 +96,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="300dp"
+            android:layout_marginBottom="50dp"
+            android:layout_width="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/highlight_transition"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:id="@+id/connectNetwork"
             android:layout_width="fill_parent">
 
@@ -107,7 +118,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="10dp"
-                android:text="Wifi password:"
+                android:text="Password:"
                 android:id="@+id/wifiPasswordTitle"
                 android:layout_marginLeft="10dp"/>
 
@@ -142,5 +153,98 @@
                 android:id="@+id/connectButton" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@drawable/highlight_transition"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/statusNetwork"
+                android:layout_width="fill_parent">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10dp"
+                    android:text="Connection information:"
+                    android:id="@+id/wifiStatusTitle"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:text="STATUS: NOT CONNECTED"
+                    android:id="@+id/wifiStatus"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:text="NETWORK:"
+                    android:id="@+id/wifiNetwork"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:text="SIGNAL STRENGTH:"
+                    android:id="@+id/wifiSignalStrength"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:text="SPEED:"
+                    android:id="@+id/wifiLinkSpeed"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_width="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:text="IP:"
+                    android:id="@+id/wifiIpAddress"
+                    android:layout_marginLeft="10dp"/>
+
+                <Button
+                    android:visibility="invisible"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:text="Next"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/nextButton" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
