@@ -1,19 +1,14 @@
 package com.silentspider.silentspideros.version;
-
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
-
 import com.silentspider.silentspideros.R;
 
-import java.io.BufferedReader;
+import android.content.Context;
+import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.Signature;
