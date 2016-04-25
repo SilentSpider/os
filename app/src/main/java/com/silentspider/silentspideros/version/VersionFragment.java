@@ -53,6 +53,11 @@ public class VersionFragment extends Fragment {
         TextView header = (TextView) view.findViewById(R.id.selectTitle);
         header.setTypeface(font);
 
+        header = (TextView) view.findViewById(R.id.updateValidation);
+        header.setTypeface(font);
+
+        header.setText("Verified: " + UpdateVerifier.verifyUpdate(getActivity()));
+
         return view;
     }
 
